@@ -1,3 +1,6 @@
+SQL 语句就是 Operator 树。https://www.infoq.cn/article/0rSVq2VIfUE0YLedLe5o
+
+---
 # Awesome Database Learning
 
 A list of learning materials to understand databases internals, including but not limited to:

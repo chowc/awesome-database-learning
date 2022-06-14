@@ -1,5 +1,19 @@
 SQL 语句就是 Operator 树。https://www.infoq.cn/article/0rSVq2VIfUE0YLedLe5o
 
+绑定器的作用就是将语法树通过和数据库的元数据(metadata)结合，为它附上语义(semantic)。比如语句里有 SELECT…FROM student，绑定器会去查询元数据确认 student 表是否存在;如果存在，是否有 class 和 id 两个属性;对于属性的后续操作是否符合规则-比如，对于 SUBSTR()这个方法，输入表达式必须是字符串类型等的一系列检查。
+
+假如一个 SQL 语句包含 10 个表的联合，这 10 个表可以相互两两联合形成中间表(intermediate result)，这些中间表还需要再一次进行两两联合，然后再继续。并且，每一次联合有两种选择(table1 join table2 或者 table2 join table1)，而且联合对应的物理操作符又有好几个(HashJoin 或者 MergeSortJoin 注：在讲 Join operator 的时候会深入讲解)。这样一来，一个复杂的查询语句对应上百万个执行树就不难理解了。
+
+- iterator model(迭代模式)或者叫 Volcano model(火山模式): operator 一次返回一个结果给上层；
+- materialization: 一次性返回所有结果；
+
+并不是所有的操作都适用于流模型，比如处理 order by 语句的 SortOperator，如果要对全部输入进行排序，必须等到所有输入都得到后才能进行排序，因此执行过程会堵塞(block)。-> 将下层返回的数据缓存到内存中，读取完成后再进行操作。如果内存放不下全量数据，就需要 split to disk。
+
+- 知识点向量模式(vectorization model)，或者叫批处理模式(batch model)：一次返回批量数据；-> 减少函数调用；适合向量运算 SIMD；比较适用于数据量很大的 OLAP 查询语句。
+
+数据库内核杂谈（四）：执行模式
+原文链接： https://www.infoq.cn/article/spfiSuFZENC6UtrftSDD
+
 ---
 # Awesome Database Learning
 

@@ -14,6 +14,30 @@ SQL 语句就是 Operator 树。https://www.infoq.cn/article/0rSVq2VIfUE0YLedLe5
 数据库内核杂谈（四）：执行模式
 原文链接： https://www.infoq.cn/article/spfiSuFZENC6UtrftSDD
 
+### 基于时间戳进行并发控制
+
+对于事务 Ti 要读取数据 A read(A):
+
+
+如果 TS(Ti) < W-timestamp(A)，说明 A 被一个 TS 比 Ti 更大的事务改写过，但 Ti 只能读取比自身 TS 小的数据。因此 Ti 的读取请求会被拒绝，Ti 会被回滚。
+
+如果 TS(Ti) > W-timestamp(A)，说明 A 最近一次被修改小于 TS(Ti)，因此读取成功，并且，R-timestamp(A)被改写为 TS(Ti)。
+
+
+对于事务 Ti 要修改数据 A write(A):
+
+
+
+如果 TS(Ti) < R-timestamp(A)，说明 A 已经被一个更大 TS 的事务读取了，Ti 对 A 的修改就没有意义了，因此 Ti 的修改请求会被拒绝，Ti 会被回滚。
+
+如果 TS(Ti) < W-timestamp(A)，说明 A 已经被一个更大 TS 的事务修改了，Ti 对 A 的修改也没有意义了，因此 Ti 的修改请求会被拒绝，Ti 会被回滚。
+
+其他情况下，Ti 的修改会被接受，同时 W-timestamp(A)会被改写为 TS(Ti)。
+
+对于写操作，可以进一步优化：当 Ti 要写 A 的时候，如果 A 已经被更大的事务 Tj 写了，此时 Ti 可以直接跳过这个写操作，而不需要回滚，因为此时 Ti 的写操作已经不会被其他任何事务看到了（新事务只能读到 Tj 或者比 Tj 更大的事务的修改；） -> 托马斯的修改规则
+
+https://www.infoq.cn/article/KyZjpzySYHUYDJa2e1fS
+
 ---
 # Awesome Database Learning
 

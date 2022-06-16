@@ -34,6 +34,14 @@ SQL 语句就是 Operator 树。https://www.infoq.cn/article/0rSVq2VIfUE0YLedLe5
 
 https://www.infoq.cn/article/KyZjpzySYHUYDJa2e1fS
 
+### 将语句拆分为 pipeline，提高执行效率
+
+首先，文章定义了一个新的概念来辅助介绍这种执行模式，pipeline-breaker。Pipeline-breaker 的定义是，在执行语句中的某一个算子，如果它的执行逻辑需要把一个待处理的 tuple 从 CPU 寄存器中去除，那这个算子就被定义成一个 pipeline-breaker。如果一个算子需要等待子算子把所有的 tuple 都送给它，才能处理数据，那这个算子就被定义成 full-pipeline-breaker。（当然，实际情况中，可能某个 tuple 已经大到 CPU 寄存器无法存下，文章这边做了个小假设， 假设有足够的寄存器）。
+
+有了这个定义后，下一个问题就是，如何才能一直将数据放在寄存器中呢？上面介绍的传统火山模型显然是做不到这一点：因为火山模型算子之间通过方法调用来传递 tuple，方法调用牵涉到方法栈的更新，数据早就被移出寄存器了。本文提到的方法就是，通过不断地把数据 push 给下一个要处理的算子，直到遇到 pipeline-breaker。但这个解释不直观。我的理解就是，对于某一个 tuple 数据，把要对其进行处理的算子（直到遇到 pipeline-breaker）排成队，依次对数据进行操作，在这个 pipeline 处理过程中，数据始终是存放在 CPU 寄存器中，因此，执行一个 pipeline 是非常高效的。而根据 pipeline-breaker，一个执行计划就会被 pipeline-breaker 算子分解成几个 pipeline，数据在这个维度下，总是从一个 pipeline，被处理完，进入另一个 pipeline。
+
+https://www.infoq.cn/article/cywqRf9UsBG8DBZCiidX
+
 ---
 # Awesome Database Learning
 

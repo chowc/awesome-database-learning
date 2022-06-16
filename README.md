@@ -14,19 +14,15 @@ SQL 语句就是 Operator 树。https://www.infoq.cn/article/0rSVq2VIfUE0YLedLe5
 数据库内核杂谈（四）：执行模式
 原文链接： https://www.infoq.cn/article/spfiSuFZENC6UtrftSDD
 
-### 基于时间戳进行并发控制
+### 基于时间戳进行加锁控制：控制并发、事务有序性
 
 对于事务 Ti 要读取数据 A read(A):
-
 
 如果 TS(Ti) < W-timestamp(A)，说明 A 被一个 TS 比 Ti 更大的事务改写过，但 Ti 只能读取比自身 TS 小的数据。因此 Ti 的读取请求会被拒绝，Ti 会被回滚。
 
 如果 TS(Ti) > W-timestamp(A)，说明 A 最近一次被修改小于 TS(Ti)，因此读取成功，并且，R-timestamp(A)被改写为 TS(Ti)。
 
-
 对于事务 Ti 要修改数据 A write(A):
-
-
 
 如果 TS(Ti) < R-timestamp(A)，说明 A 已经被一个更大 TS 的事务读取了，Ti 对 A 的修改就没有意义了，因此 Ti 的修改请求会被拒绝，Ti 会被回滚。
 

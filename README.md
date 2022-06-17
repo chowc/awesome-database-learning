@@ -138,7 +138,10 @@ Please submit a pull request if there is any material that you think should be i
 
 ### Blogs
 
-- [How does a relational database work](http://coding-geek.com/how-databases-work)
+- [x] [How does a relational database work](http://coding-geek.com/how-databases-work) ⭐
+
+> only PostgreSQL is not using an UNDO. It uses instead a garbage collector daemon that removes the old versions of data. This is linked to the implementation of the data versioning in PostgreSQL.
+
 - [The Internals of PostgreSQL](http://www.interdb.jp/pg/index.html)
 - [Books propose](https://cakebytheoceanluo.github.io/2020/03/10/books/)
 

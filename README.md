@@ -127,7 +127,12 @@ Please submit a pull request if there is any material that you think should be i
 - [Database Design and Implementation: Second Edition (Data-Centric Systems and Applications)](https://www.amazon.com/dp/3030338355)
 - [Principles of Distributed Database Systems, 4th ed](https://www.amazon.com/dp/3030262529)
 - [x] [Inside SQLite](https://books.google.com/books/about/Inside_SQLite.html?id=QoxUx8GOjKMC)
-- [Architecture of a Database System](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) -> Section 2
+- [Architecture of a Database System](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) -> Section 3.3 Shared Disk
+
+1. 70s 操作系统对多线程的支持有限或者实现不够高效，因此数据库大多采取 process-per worker / workers on process pool 或者自己实现用户层的线程；这些都沿袭至今：
+   1. postgres: process-per worker;
+   2. oracle 默认 process-per worker，或者是 process pool;
+
 - [Relational Database Index Design and the Optimizers](https://www.amazon.com/Relational-Optimizers-Lahdenmaki-published-Wiley-Blackwell/dp/B00EKYLFSI)
 - [Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control](https://www.sciencedirect.com/book/9781558605084/transactional-information-systems)
 

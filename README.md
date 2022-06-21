@@ -127,11 +127,14 @@ Please submit a pull request if there is any material that you think should be i
 - [Database Design and Implementation: Second Edition (Data-Centric Systems and Applications)](https://www.amazon.com/dp/3030338355)
 - [Principles of Distributed Database Systems, 4th ed](https://www.amazon.com/dp/3030262529)
 - [x] [Inside SQLite](https://books.google.com/books/about/Inside_SQLite.html?id=QoxUx8GOjKMC)
-- [Architecture of a Database System](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) -> Section 3.3 Shared Disk
+- [Architecture of a Database System](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) -> Section 4
 
 1. 70s 操作系统对多线程的支持有限或者实现不够高效，因此数据库大多采取 process-per worker / workers on process pool 或者自己实现用户层的线程；这些都沿袭至今：
    1. postgres: process-per worker;
    2. oracle 默认 process-per worker，或者是 process pool;
+2. NUMA hardware architectures are an interesting middle ground between shared-nothing and shared-memory systems. They are much easier to program than shared-nothing clusters, and also scale to more processors than shared-memory systems by avoiding shared points of contention such as shared-memory buses.
+3. Often the memory of large shared memory multi-processors is divided into sections and each section is associated with a small subset of the processors in the system. Each combined subset of memory and CPUs is often referred to as a pod. Each processor can access local pod memory slightly faster than remote pod memory. This use of the NUMA design pattern has allowed shared memory systems to scale to very large numbers of processors. As a consequence, NUMA shared memory multi-processors are now very common whereas NUMA clusters have never achieved any significant market share.
+4. shared-memory、shard-disk、share-nothing，第一个几乎所有 DMBS 都支持，后面两个则出现分化；
 
 - [Relational Database Index Design and the Optimizers](https://www.amazon.com/Relational-Optimizers-Lahdenmaki-published-Wiley-Blackwell/dp/B00EKYLFSI)
 - [Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control](https://www.sciencedirect.com/book/9781558605084/transactional-information-systems)

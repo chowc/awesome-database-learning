@@ -137,7 +137,10 @@ Please submit a pull request if there is any material that you think should be i
 4. shared-memory、shard-disk、share-nothing，第一个几乎所有 DMBS 都支持，后面两个则出现分化；
 5. Oracle avoids moving rows in heap files by allowing rows to span pages. So, when a row is updated to a longer value that no longer fits on the original page, rather than being forced to move the row, they store what fits in the original page and the remainder can span to the next.
 6. 将过滤条件放到数据访问层，避免了 pin/unpin page 和 tuple copy；
-7. 
+7. Storage Management
+   1. raw disk: bypass the file system, need to handle different "disk interface"; the rising of "virtual disk";
+   2. create a big file and put related data in close offset;
+  
 - [Relational Database Index Design and the Optimizers](https://www.amazon.com/Relational-Optimizers-Lahdenmaki-published-Wiley-Blackwell/dp/B00EKYLFSI)
 - [Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control](https://www.sciencedirect.com/book/9781558605084/transactional-information-systems)
 

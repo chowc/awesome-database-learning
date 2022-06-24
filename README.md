@@ -140,7 +140,8 @@ Please submit a pull request if there is any material that you think should be i
 7. Storage Management
    1. raw disk: bypass the file system, need to handle different "disk interface"; the rising of "virtual disk";
    2. create a big file and put related data in close offset;
-  
+8. In the standard usage model, the system administrator creates a file system on each disk or logical volume in the DBMS. The DBMS then allocates a single large file in each of these file systems and controls placement of data within that file via low-level interfaces like the mmap suite. The
+DBMS essentially treats each disk or logical volume as a linear array of (nearly) contiguous database pages.
 - [Relational Database Index Design and the Optimizers](https://www.amazon.com/Relational-Optimizers-Lahdenmaki-published-Wiley-Blackwell/dp/B00EKYLFSI)
 - [Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control](https://www.sciencedirect.com/book/9781558605084/transactional-information-systems)
 

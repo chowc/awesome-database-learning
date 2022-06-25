@@ -199,6 +199,11 @@ Blogs:
 Papers:
 
 - 1979, [Access Path Selection in a Relational Database Management System](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.71.3735&rep=rep1&type=pdf), SIGMOD
+
+1. Indexes are implemented as B-trees <3>, whose leaves are pages containing sets of (**key, identifiers of tuples which contain that key**).
+2. If the tuples are inserted into segment pages in the index ordering, and if this physical proximity corresponding to index key value is maintained, we say that the index is clustered. A clustered index has the property that not only each index page, but also each data page containing a tuple from that relation will be touched only once in a scan on that index.
+3. A "sargable(search argument able) predicate" is one of the form (or which can be put into the form) “column comparison-operator value”. SARGS are expressed as a boolean expression of such predicates in disjunctive normal form.
+
 - 1979, [Query Processing in Main Memory Database Management Systems](http://15721.courses.cs.cmu.edu/spring2016/papers/p239-lehman.pdf), VLDB
 - 1987, [Query Optimization by Simulated Annealing](http://ftp.cs.wisc.edu/pub/techreports/1987/TR693.pdf), SIGMOD
 - 1988, [Grammar-like Functional Rules for Representing Query Optimization Alternatives](https://people.eecs.berkeley.edu/~brewer/cs262/23-lohman88.pdf), SIGMOD

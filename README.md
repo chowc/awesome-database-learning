@@ -142,6 +142,9 @@ Please submit a pull request if there is any material that you think should be i
    2. create a big file and put related data in close offset;
 8. In the standard usage model, the system administrator creates a file system on each disk or logical volume in the DBMS. The DBMS then allocates a single large file in each of these file systems and controls placement of data within that file via low-level interfaces like the mmap suite. The
 DBMS essentially treats each disk or logical volume as a linear array of (nearly) contiguous database pages.
+9. Index 的并发：The key insight in these schemes is that modifications to the tree’s physical structure (e.g., splitting pages) can be made in a non-transactional manner as long as all concurrent transactions continue to find the correct data at the leaves.
+10. 对 Index B-Tree 修改的回滚：The main idea is that structural index changes need not be undone when the associated transaction is aborted; such changes can often have no effect on the database tuples seen by other transactions. For example, if a B+-tree page is split during an inserting transaction that subsequently aborts, there is no pressing need to undo the split during the abort processing. This raises the challenge of labeling some log records redo-only. During any undo processing of the log, the redo-only changes can be left in place. ARIES provides an elegant mechanism for these scenarios, called nested top actions, that allows the recovery process to “jump over” log records for physical structure modifications during recovery without any special-case code.
+11. 
 - [Relational Database Index Design and the Optimizers](https://www.amazon.com/Relational-Optimizers-Lahdenmaki-published-Wiley-Blackwell/dp/B00EKYLFSI)
 - [Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control](https://www.sciencedirect.com/book/9781558605084/transactional-information-systems)
 

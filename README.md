@@ -42,6 +42,12 @@ https://www.infoq.cn/article/KyZjpzySYHUYDJa2e1fS
 
 https://www.infoq.cn/article/cywqRf9UsBG8DBZCiidX
 
+*Usually, latches are used to guarantee physical consistency of data, while locks are used to assure logical consistency of data.*
+
+latch 是编程上的锁，如 synchronized，lock 是概念上的锁，如分布式锁。
+
+With hierarhical locking, the intention locks(IX, IS, and SIX) are generally obtained on the higher levels of the hierarchy (e.g. table), and the S and X locks are obtained on the lower levels(e.g. record). The nonintention mode locks(S and X), when obtained on an object at a certain level of the hierarchy, implicitly grant locks of the corresponding mode on the lower level objects of that higher level object. The intention mode locks, on the other hand, only give the privilege of requesting the corresponding intention or nonintention mode locks on the lower level objects. For example, SIX on a table *implicitly* grants S on all the records of that table, and it allows X to be requested explicitly on the records. 
+
 ---
 # Awesome Database Learning
 

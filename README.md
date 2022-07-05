@@ -493,8 +493,8 @@ Papers:
 
 Blogs:
 
-- [B树、B+树索引算法原理（上）](https://www.codedump.info/post/20200609-btree-1/) thanks to [codedump](https://www.codedump.info/)
-- [B树、B+树索引算法原理（下）](https://www.codedump.info/post/20200615-btree-2/)
+- [x] [B树、B+树索引算法原理（上）](https://www.codedump.info/post/20200609-btree-1/) thanks to [codedump](https://www.codedump.info/)
+- [x] [B树、B+树索引算法原理（下）](https://www.codedump.info/post/20200615-btree-2/)
 
 Courses:
 

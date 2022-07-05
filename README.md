@@ -394,7 +394,7 @@ Blogs:
 
 Blogs:
 
-- [一致性模型](https://www.jianshu.com/p/3673e612cce2), thanks to [siddontang](https://www.jianshu.com/u/1yJ3ge)
+- [x] [一致性模型](https://www.jianshu.com/p/3673e612cce2), thanks to [siddontang](https://www.jianshu.com/u/1yJ3ge) :star:
 
 Papers:
 

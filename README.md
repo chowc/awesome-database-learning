@@ -488,7 +488,18 @@ Whether or not O_DIRECT flag is used, it is always a good idea to make sure your
 For same reason, something you would usually use in Network context, like select and epoll, does not allow monitoring and/or checking status of regular files.*
 
 
-- [On Disk IO, Part 2: More Flavours of IO](https://medium.com/databasss/on-disk-io-part-2-more-flavours-of-io-c945db3edb13?), thanks to [Alex](https://twitter.com/ifesdjeen)
+- [x] [On Disk IO, Part 2: More Flavours of IO](https://medium.com/databasss/on-disk-io-part-2-more-flavours-of-io-c945db3edb13?), thanks to [Alex](https://twitter.com/ifesdjeen)
+
+With mmap a file can be mapped to a memory segment privately or in shared mode. Private mapping allows reading from the file, but any write would trigger copy-on-write of the page in question in order to leave the original page intact and keep the changes private, so none of the changes will get reflected on the file itself. In shared mode, the file mapping is shared with other processes so they can see updates to the mapped memory segment. Additionally, changes are carried through to the underlying file
+
+Memory Mapping is done through the page cache, the same way as the Standard IO operations such as read and write and is using a demand paging.
+
+mmap is a very useful tool for working with IO: It avoids creating an extraneous copy of the buffer in memory (unlike Standard IO, where the data has to be copied into the user-space buffers before the system call is made). Besides, it avoids a system call (and subsequent context switch) overhead for triggering actual IO operation, except when Page Faults occur. From a developers perspective, issuing a random read using an mmapped file looks just like a normal pointer operation and doesn’t involve lseek calls.
+
+mlock 将 page pin 在 page cache：Another useful call is mlock. It allows you to force pages to be held in memory. This means that once the page is loaded into memory, all subsequent operations will be served from the page cache. It has to be used with caution, since calling it on every page will simply exhaust the system resources.
+
+**Vectored IO**
+
 - [On Disk IO, Part 3: LSM Trees](https://medium.com/databasss/on-disk-io-part-3-lsm-trees-8b2da218496f), thanks to [Alex](https://twitter.com/ifesdjeen)
 - [On Disk IO, Part 4: B-Trees and RUM Conjecture](https://medium.com/databasss/on-disk-storage-part-4-b-trees-30791060741), thanks to [Alex](https://twitter.com/ifesdjeen)
 - [On Disk IO, Part 5: Access Patterns in LSM Trees](https://medium.com/databasss/on-disk-io-access-patterns-in-lsm-trees-2ba8dffc05f9), thanks to [Alex](https://twitter.com/ifesdjeen)

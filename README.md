@@ -509,8 +509,25 @@ mlock 将 page pin 在 page cache：Another useful call is mlock. It allows you 
 A key goal of log-structured systems is sequentialising writes. However, if the FTL is shared by two log- structured applications (or even a single application with multiple append streams), the incoming data into the FTL is likely to look random or disjoint. 
 It’s often advised to use a separate physical device for Write Ahead Log to make sure both memory table flushes and WAL writes are sequential. There are many other reasons to do so, too: to avoid IO saturation, for better failover, more predictable latencies.
 
-- [Ensuring data reaches disk(LWN)](https://lwn.net/Articles/457667/)
-- [Read, write & space amplification - pick 2](http://smalldatum.blogspot.com/2015/11/read-write-space-amplification-pick-2_23.html), thanks to [Mark Callaghan](https://twitter.com/markcallaghandb)
+- [x] [Ensuring data reaches disk(LWN)](https://lwn.net/Articles/457667/)
+
+I/O operations performed against files opened with O_DIRECT bypass the kernel's page cache, writing directly to the storage. Recall that the storage may itself store the data in a write-back cache, so *`fsync()` is still required for files opened with `O_DIRECT` in order to save the data to stable storage*. The `O_DIRECT` flag is only relevant for the system I/O API.
+
+Synchronous I/O is any I/O (system I/O with or without O_DIRECT, or stream I/O) performed to a file descriptor that was opened using the O_SYNC or O_DSYNC flags. These are the synchronous modes, as defined by POSIX:
+
+O_SYNC: File data and all file metadata are written synchronously to disk.
+O_DSYNC: Only file data and metadata needed to access the file data are written synchronously to disk.
+O_RSYNC: Not implemented
+The data and associated metadata for write calls to such file descriptors end up immediately on stable storage. Note the careful wording, there. Metadata that is not required for retrieving the data of the file may not be written immediately. That metadata may include the file's access time, creation time, and/or modification time.
+
+It is also worth pointing out the subtleties of opening a file descriptor with O_SYNC or O_DSYNC, and then associating that file descriptor with a libc file stream. Remember that fwrite()s to the file pointer are buffered by the C library. It is not until an fflush() call is issued that the data is known to be written to disk. In essence, associating a file stream with a synchronous file descriptor means that an fsync() call is not needed on the file descriptor after the fflush(). The fflush() call, however, is still necessary. -> flush 将 page cache 写到 disk，同时将 disk cache -> disk stable storage. 
+
+Similarly, if you encounter a system failure (such as power loss, ENOSPC or an I/O error) while overwriting a file, it can result in the loss of existing data. To avoid this problem, it is common practice (and advisable) to write the updated data to a temporary file, ensure that it is safe on stable storage, then rename the temporary file to the original file name (thus replacing the contents). This ensures an atomic update of the file, so that other readers get one copy of the data or another.
+
+
+- [x] [Read, write & space amplification - pick 2](http://smalldatum.blogspot.com/2015/11/read-write-space-amplification-pick-2_23.html), thanks to [Mark Callaghan](https://twitter.com/markcallaghandb)
+
+Endurance (write amp) and capacity (space amp) matter when using flash. IOPs (read amp for point and range queries, write amp for writes) matters when using disk.
 
 Papers:
 

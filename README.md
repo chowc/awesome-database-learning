@@ -653,3 +653,10 @@ Talks:
 
 - [Dremel](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36632.pdf)
 - [The-striping-and-assembly-algorithms-from-the-Dremel-paper](https://github.com/julienledem/redelm/wiki/The-striping-and-assembly-algorithms-from-the-Dremel-paper)
+- [Dremel made simple with parquet](https://blog.twitter.com/engineering/en_us/a/2013/dremel-made-simple-with-parquet)
+
+1. Organizing by column allows for better compression, as data is more homogenous. The space savings are very noticeable at the scale of a Hadoop cluster.
+
+I/O will be reduced as we can efficiently scan only a subset of the columns while reading the data. Better compression also reduces the bandwidth required to read the input.
+
+As we store data of the same type in each column, we can use encodings better suited to the modern processors’ pipeline by making instruction branching more predictable.

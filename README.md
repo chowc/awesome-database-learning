@@ -648,3 +648,8 @@ Papers:
 
 Talks:
 - [The TLA+ Video Course](http://lamport.azurewebsites.net/video/videos.html)
+
+## OLAP
+
+- [Dremel](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36632.pdf)
+- [The-striping-and-assembly-algorithms-from-the-Dremel-paper](https://github.com/julienledem/redelm/wiki/The-striping-and-assembly-algorithms-from-the-Dremel-paper)

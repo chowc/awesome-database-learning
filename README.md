@@ -453,8 +453,15 @@ Papers:
 
 - 2006, [Bigtable: A Distributed Storage System for Structured Data](https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf), OSDI
 - [x] 2007, [Dynamo: Amazon’s Highly Available Key-value Store](https://sites.cs.ucsb.edu/~agrawal/fall2009/dynamo.pdf), SOSP
+
+1. 使用 gossip 在节点间同步 membership；
+
 - 2008, [PNUTS: Yahoo!’s Hosted Data Serving Platform](https://sites.cs.ucsb.edu/~agrawal/fall2009/PNUTS.pdf), VLDB
 - 2010, [Cassandra - A Decentralized Structured Storage System](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf), SOSP
+
+1. A node outage rarely signifies a permanent departure and therefore should not result in re-balancing of the partition assignment or repair of the
+unreachable replicas;
+
 - 2019, [PNUTS to Sherpa: Lessons from Yahoo!’s Cloud Database ](http://www.vldb.org/pvldb/vol12/p2300-cooper.pdf), VLDB
 
 ### Buffer Management
@@ -584,7 +591,7 @@ Papers:
 Blogs:
 
 - [TiDB Internal (I) - Data Storage](https://pingcap.com/blog/2017-07-11-tidbinternal1/)
-- [Partitioning Behavior of DynamoDB](https://dzone.com/articles/partitioning-behavior-of-dynamodb), thanks to [Parth Modi](https://dzone.com/users/3098371/parthmodi.html)
+- [x] [Partitioning Behavior of DynamoDB](https://dzone.com/articles/partitioning-behavior-of-dynamodb), thanks to [Parth Modi](https://dzone.com/users/3098371/parthmodi.html)
 
 Papers:
 
